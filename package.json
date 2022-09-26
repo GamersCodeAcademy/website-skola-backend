@@ -1,0 +1,11 @@
+{
+  "name": "websitebackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mode ."
+  },
+  "author": "Mastergamer433",
+  "license": "GPL-3.0"
+}
