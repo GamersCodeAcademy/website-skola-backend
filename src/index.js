@@ -7,7 +7,9 @@ const getReq = (req, res, url) => {
     switch(url){
     // if client just requested the index
     case "/": {
-	
+	res.writeHead(200)
+	res.write("Hello");
+	res.end();
     }
     }
 };
@@ -25,8 +27,8 @@ const postReq = (req, res, url) => {
 
 // this parses the url the client requested
 const parseUrl = (req) => {
-    const urlSplit = req.url.split('');
-    return urlSplit[-1] != "/" ? urlSplit.push("/").toString() : req.url;
+    const urlSplit = req.url.toString().split('');
+    return urlSplit[urlSplit.length - 1] != "/" ? urlSplit.push("/").toString() : req.url;
 };
 
 // here it handles requests
