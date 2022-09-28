@@ -4,7 +4,7 @@ import express from "express";
 // initiate express
 const app = express();
 
-// here it handles requests
+// the entrt point
 const main = async() => {
   app.get("/", (req, res) => {
     res.end("Hello")
