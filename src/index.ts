@@ -6,8 +6,11 @@ const app = express();
 
 // here it handles requests
 const main = async() => {
-    app.get("/", (req, res) => {
-	res.end("Hello")
-    });
+  app.get("/", (req, res) => {
+    res.end("Hello")
+  });
+
+  app.listen(3001)
 }
+
 main();
