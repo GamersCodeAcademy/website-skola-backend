@@ -1,0 +1,31 @@
+* SQL Tables
+** Member
+| ID | Name   | Role |
+|  1 | Elis   |    1 |
+|  2 | Frdrik |    2 |
+
+** User
+| ID | Username         | Email           | Password     |
+|  1 | mg433            | mail@mail.com   | pass123      |
+|  2 | OldSchoolGamer77 | email@mail.mail | qwerty123456 |
+
+* Member Roles
+Nu:
+| NUMBER | NAME        |
+|      0 | None        |
+|      1 | Admin       |
+|      2 | Write       |
+|      3 | Read        |
+|      4 | Edit        |
+|      5 | Read Others |
+Read & Write = 1,2
+
+Senare;
+| NUMBER | NAME        |
+|      0 | None        |
+|      1 | Admin       |
+|      2 | Write       |
+|      4 | Read        |
+|      8 | Edit        |
+|     16 | Read Others |
+
