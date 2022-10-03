@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Project` ADD COLUMN `author` VARCHAR(255) NOT NULL DEFAULT '';
