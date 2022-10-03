@@ -20,6 +20,12 @@ const main = async () => {
     res.end("Hello")
   });
 
+  app.get("/projects", async (req, res) =>{
+    const projects = await prisma.project.findMany();
+    console.log(projects)
+    res.end(JSON.stringify(projects))
+  })
+
   app.post("/createProject", async (req, res) =>{
     console.log(req.body)
     const project = await prisma.project.create({
