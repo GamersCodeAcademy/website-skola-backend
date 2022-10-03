@@ -14,3 +14,11 @@ model User {
   email    String  @unique(map: "email") @db.VarChar(100)
   password String  @db.Text
 }
+
+model Project {
+  id          Int    @id @default(autoincrement())
+  title       String @db.VarChar(255)
+  description String @db.VarChar(500)
+  repo        String @db.VarChar(255)
+  author      String @default("") @db.VarChar(255)
+}

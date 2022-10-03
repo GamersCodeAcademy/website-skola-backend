@@ -20,6 +20,40 @@ const main = async () => {
     res.end("Hello")
   });
 
+  app.post("/createProject", async (req, res) =>{
+    console.log(req.body)
+    const project = await prisma.project.create({
+      data: {
+	title: req.body.title,
+	description: req.body.desc,
+	repo: req.body.repo,
+	author: req.body.author
+      }
+    })
+    res.end("Success")
+  })
+
+  app.post("/signup", async (req, res) =>{
+    console.log(req.body)
+    const User = await prisma.user.findFirst({
+      where: {
+	email: req.body.email
+      }
+    })
+    if(User !== null){
+      res.end("Nope");
+    }else{
+      const user = await prisma.user.create({
+	data: {
+	  username: req.body.username,
+	  email: req.body.email,
+	  password: req.body.password
+	}
+      })
+      res.end("Success")
+    }
+  })
+
   app.post("/login", async (req, res) =>{
     console.log(req.body)
     const user = await prisma.user.findFirst({
