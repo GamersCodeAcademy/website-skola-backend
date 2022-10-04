@@ -12,18 +12,8 @@ const app = express();
 // create a prisma client
 const prisma = new PrismaClient();
 
-const authenticateToken = (req: any, res: any, next: any) => {
-  const authHeader = req.headers['authorization'];
-  console.log(req.headers)
-  const token = authHeader && authHeader.split(' ')[1];
-  if(token == null) return res.sendStatus(401);
-
-  jwt.verify(token, config.accessTokenSecret, (err: any, user: any) => {
-    if(err) return res.sendStatus(403);
-    req.user = user;
-    next();
-
-  });
+const generateAccessToken = (user: any) => {
+  return jwt.sign(user, config.accessTokenSecret, { expiresIn: '30s'})
 }
 
 // the entrt point
@@ -36,22 +26,21 @@ const main = async () => {
     res.end("Hello")
   });
 
-  app.get("/projects", authenticateToken, async (req: any, res: any) =>{
-    const projects = await prisma.project.findMany();
-    res.json(projects.filter(project => project.author == req.user.name))
-  })
-
-  app.post("/createProject", authenticateToken, async (req: any, res: any) =>{
-    console.log(req.body)
-    const project = await prisma.project.create({
-      data: {
-	title: req.body.title,
-	description: req.body.desc,
-	repo: req.body.repo,
-	author: req.body.author
-      }
-    })
-    res.end("Success")
+  app.post('/token', (req, res) => {
+    const refreshToken = req.body.token;
+    if(refreshToken == null) return res.sendStatus(401);
+    const isValid = prisma.refreshtokens.findFirst({
+	where: {
+	  refreshToken: refreshToken
+	}
+      }) == null ? false : true;
+    if(isValid){
+      jwt.verify(refreshToken, config.refreshTokenSecret, (err: any, user: any) => {
+	if(err) return res.sendStatus(493)
+	const accessToken = generateAccessToken({ name: user.name })
+	res.json(accessToken);
+      })
+    }else return res.sendStatus(403)
   })
 
   app.post("/signup", async (req: any, res: any) =>{
@@ -85,14 +74,21 @@ const main = async () => {
     });
     console.log(user)
     if(user !== null){
-      const accessToken = jwt.sign({name: user.username, enail: user.email, id: user.id}, config.accessTokenSecret);
+      const userObj = {name: user.username, enail: user.email, id: user.id}
+      const accessToken = generateAccessToken(userObj);
+      const refreshToken = jwt.sign(userObj, config.refreshTokenSecret);
+      await prisma.refreshtokens.create({
+	data: {
+	  refreshToken: refreshToken
+	}
+      })
       console.log(accessToken);
-      res.json({ accessToken: accessToken });
+      res.json({ accessToken: accessToken, refreshToken: refreshToken });
 
     }
   })
 
-  app.listen(3001);
+  app.listen(4001);
 }
 
 main()
