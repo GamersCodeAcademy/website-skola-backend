@@ -26,19 +26,28 @@ const main = async () => {
     res.end("Hello")
   });
 
-  app.post('/token', (req, res) => {
+  app.delete("/logout", async (req: any, res: any) => {
+    await prisma.refreshtokens.delete({
+      where: {
+	refreshToken: req.body.token
+      }
+    })
+    res.sendStatus(204)
+  })
+
+  app.post('/token', async (req, res) => {
     const refreshToken = req.body.token;
     if(refreshToken == null) return res.sendStatus(401);
-    const isValid = prisma.refreshtokens.findFirst({
+    const isValid = await  prisma.refreshtokens.findFirst({
 	where: {
 	  refreshToken: refreshToken
 	}
       }) == null ? false : true;
     if(isValid){
       jwt.verify(refreshToken, config.refreshTokenSecret, (err: any, user: any) => {
-	if(err) return res.sendStatus(493)
-	const accessToken = generateAccessToken({ name: user.name })
-	res.json(accessToken);
+	if(err) return res.sendStatus(403)
+	const accessToken = generateAccessToken({ name: user.name, email: user.email, id: user.id })
+	res.json({accessToken: accessToken});
       })
     }else return res.sendStatus(403)
   })
