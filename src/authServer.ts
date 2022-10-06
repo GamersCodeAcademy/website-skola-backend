@@ -13,7 +13,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 const generateAccessToken = (user: any) => {
-  return jwt.sign(user, config.accessTokenSecret, { expiresIn: '30s'})
+  return jwt.sign(user, config.accessTokenSecret, { expiresIn: '15m'})
 }
 
 // the entrt point
