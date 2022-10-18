@@ -13,6 +13,7 @@ model User {
   username     String  @db.VarChar(20)
   email        String  @unique(map: "email") @db.VarChar(100)
   password     String  @db.Text
+  permission   Int
 }
 
 model Project {
