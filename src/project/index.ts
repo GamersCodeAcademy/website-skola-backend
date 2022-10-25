@@ -4,7 +4,7 @@ import createRouter from "./create"
 import authenticateToken from "../helpers/middleWare/authenticateToken"
 const router = express.Router()
 
-router.get('/list', helpers.middleWare.authenticateToken, async (req: any, res: any) => {
+router.get('/list', authenticateToken, async (req: any, res: any) => {
   const projects = await prisma.project.findMany();
   res.json(projects.filter((project: any) => project.author == req.user.name))
 })

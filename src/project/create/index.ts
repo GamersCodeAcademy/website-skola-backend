@@ -1,9 +1,10 @@
 import express from "express"
+import prisma from "../../clients/prisma"
 import authenticateToken from "../../helpers/middleWare/authenticateToken"
 
 const router = express.Router();
 
-app.post("/createProject", authenticateToken, async (req: any, res: any) =>{
+router.post("/createProject", authenticateToken, async (req: any, res: any) =>{
   console.log(req.body)
   const project = await prisma.project.create({
     data: {
