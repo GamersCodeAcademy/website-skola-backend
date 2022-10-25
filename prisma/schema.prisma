@@ -13,7 +13,7 @@ model User {
   username     String  @db.VarChar(20)
   email        String  @unique(map: "email") @db.VarChar(100)
   password     String  @db.Text
-  permission   Int
+  role         Role    @default(USER)
 }
 
 model Project {
@@ -26,4 +26,11 @@ model Project {
 
 model Refreshtokens{
   refreshToken String @default("") @unique
+}
+
+enum Role{
+  FOUNDER
+  ADMIN
+  MOD
+  USER
 }
