@@ -1,4 +1,14 @@
 {
+  "jwt": {
     "accessTokenSecret":  "3899c2ebef1984060ec99badd770768d8c32b60719e0606d3c5981d204b232fb1294886cb83f1e8595b6f6dbd3881968bf04662d8f7ec6ecaf37bee2305fd87b",
     "refreshTokenSecret": "3899c2ebef1984060ec99badd770768d8c32b60719e0606d3c5981d204b232fb1294886cb83f1e8595b6f6dbd3881968bf04662d8f7ec6ecaf37bee2305fd87b"
+  },
+  "server": {
+    "auth": {
+      "port": 4001
+    },
+    "main": {
+      "port": 3001
+    }
+  }
 }
