@@ -13,7 +13,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 const generateAccessToken = (user: any) => {
-  return jwt.sign(user, config.accessTokenSecret, { expiresIn: '30s'})
+  return jwt.sign(user, config.jwt.accessTokenSecret, { expiresIn: '30s'})
 }
 
 // the entrt point
@@ -44,7 +44,7 @@ const main = async () => {
 	}
       }) == null ? false : true;
     if(isValid){
-      jwt.verify(refreshToken, config.refreshTokenSecret, (err: any, user: any) => {
+      jwt.verify(refreshToken, config.jwt.refreshTokenSecret, (err: any, user: any) => {
 	if(err) return res.sendStatus(403)
 	const accessToken = generateAccessToken({ name: user.name, email: user.email, id: user.id })
 	res.json({accessToken: accessToken});
@@ -85,7 +85,7 @@ const main = async () => {
     if(user !== null){
       const userObj = {name: user.username, enail: user.email, id: user.id}
       const accessToken = generateAccessToken(userObj);
-      const refreshToken = jwt.sign(userObj, config.refreshTokenSecret);
+      const refreshToken = jwt.sign(userObj, config.jwt.refreshTokenSecret);
       await prisma.refreshtokens.create({
 	data: {
 	  refreshToken: refreshToken
@@ -97,7 +97,7 @@ const main = async () => {
     }
   })
 
-  app.listen(4001);
+  app.listen(config.server.auth.port);
 }
 
 main()
