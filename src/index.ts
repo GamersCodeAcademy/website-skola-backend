@@ -17,7 +17,7 @@ const main = async () => {
   app.use(cors())
   app.use('/project', projectRouter)
 
-  app.listen(3001);
+  app.listen(config.server.main.port);
 }
 
 main()
