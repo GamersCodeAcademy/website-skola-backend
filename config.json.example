@@ -1,0 +1,14 @@
+{
+  "jwt": {
+    "accessTokenSecret":  "",
+    "refreshTokenSecret": ""
+  },
+  "server": {
+    "auth": {
+      "port": 4001
+    },
+    "main": {
+      "port": 3001
+    }
+  }
+}
