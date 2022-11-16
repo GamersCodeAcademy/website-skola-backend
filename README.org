@@ -29,3 +29,62 @@ Senare;
 |      8 | Edit        |
 |     16 | Read Others |
 
+
+* Self host
+** Installation
+Clone the repo and install the dependencies:
+#+begin_src sh
+  git clone https://github.com/GamersCodeAcademy/website-skola-backend
+  cd website-skola-backend
+  npm i
+#+end_src
+
+** Configuration
+Copy the .env.example to .env.
+Set the url to the mysql database in the .env file it could look something like:
+#+begin_src sh
+  DATABASE_URL="mysql://root:root@192.168.1.10:3306/backend"
+#+end_src
+
+Copy the config.json.example to config.json.
+Do:
+#+begin_src sh
+  tr -cd '[:alnum:]' < /dev/urandom | fold -w128 | head -n1
+#+end_src
+i know this looks a bit janky, but all it does is generating a endlessly long string, filter out all characters that you normally dont use and takes the 128 top characters.
+
+Copy the string it outputs and paste it in the src_js[]{"accessTokenSecret"} in the src_js[]{"jwt"} section in the config.json file.
+
+It can look something like this:
+#+begin_src js
+  {
+      "jwt": {
+          "accessTokenSecret":  "3899c2ebef1984060ec99badd770768d8c32b60719e0606d3c5981d204b232fb1294886cb83f1e8595b6f6dbd3881968bf04662d8f7ec6ecaf37bee2305fd87b",
+          "refreshTokenSecret": "3899c2ebef1984060ec99badd770768d8c32b60719e0606d3c5981d204b232fb1294886cb83f1e8595b6f6dbd3881968bf04662d8f7ec6ecaf37bee2305fd87b"
+      },
+      "server": {
+          "auth": {
+              "port": 4001
+          },
+          "main": {
+              "port": 3001
+          }
+      }
+  }
+#+end_src
+
+you can also customize the port for the main backend and the authentication server if you'd like.
+
+** Running
+Now to run this you can use:
+#+begin_src sh
+  nodemon
+#+end_src
+
+and in another terminal
+#+begin_src sh
+  nodemon src/authServer.ts
+#+end_src
+and make sure you are in the folder were you cloned the repo in the second terminal.
+
+
